@@ -1,14 +1,51 @@
-set fileencodings=utf-8,chinese,latin-1,gb18030,gbk,cp936
-set fileencoding=chinese
-set nospell
-set nolist
-" colorscheme busybee
-colorscheme fruity
-set wrap
-let filetype_m = 'objc'
+" vundle插件设置
+set nocompatible              " be iMproved
+filetype off                  " required!
 
-Bundle 'Valloric/YouCompleteMe'
-let g:ycm_key_list_select_completion = ['<Down>', '<C-N>']
+set rtp+=$VIM/vimfiles/vundle/
+
+" 设置vundle插件的存放位置（rc括号内的路径)
+call vundle#rc('$VIM/vimfiles/bundle/')
+
+" let Vundle manage Vundle
+" required! 
+Bundle 'VundleVim/vundle.vim'
+
+"bundles here:
+Bundle 'tomtom/tlib_vim'
+Bundle 'MarcWeber/vim-addon-mw-utils'
+Bundle 'garbas/vim-snipmate'
+Bundle 'honza/vim-snippets'
+Bundle 'https://github.com/easymotion/vim-easymotion.git'
+Bundle 'bling/vim-airline'
+Bundle 'scrooloose/nerdtree'
+Bundle 'https://github.com/lifepillar/vim-solarized8.git'
+Bundle 'https://github.com/vim-scripts/taglist.vim.git'
+
+filetype plugin indent on     " required!
+"
+" Brief help
+" :BundleList          - list configured bundles
+" :BundleInstall(!)    - install (update) bundles
+" :BundleSearch(!) foo - search (or refresh cache first) for foo
+" :BundleClean(!)      - confirm (or auto-approve) removal of unused bundles
+"
+" see :h vundle for more details or wiki for FAQ
+" NOTE: comments after Bundle commands are not allowed.
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 编码设置
+set fileencoding=utf-8
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
+set encoding=utf-8
+set termencoding=chinese
+" 语言设置
+set langmenu=zh_CN.UTF-8
+set helplang=cn
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+language message zh_CN.UTF-8
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 基础设置
@@ -28,6 +65,7 @@ set browsedir=current     " which directory to use for the file browser
 set wildmenu
 set wildignore=*.bak,*.o,*.e,*~
 set complete+=k           " scan the files given with the 'dictionary' option
+set path+=**
 set noeb
 autocmd BufEnter * :lchdir %:p:h " Change the working directory to the directory containing the current file
 syntax on
@@ -37,42 +75,29 @@ set bsdir=buffer
 set autochdir
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "颜色设置
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"colorsc koehler
-"colorsc solarized
-colorsc desert
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set background=light
+colorsc solarized8
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "字体设置
-"set guifont=yahei\ mono:h12:cGB2312
 set guifont=YaHei\ Consolas\ Hybrid:h12:cGB2312
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "折叠设置
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"set foldmethod=manual
 set foldmethod=indent
 set foldlevelstart=99
-nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "缩进设置
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set autoindent 
 set smartindent
 set cindent
 set nowrap
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "界面设置
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set showtabline=1 "只有一个页签时不显示标签栏
 set guitablabel=%{tabpagenr()}.%t\ %m "每个tab上显示编号
 set guioptions-=T "去掉工具条
@@ -85,22 +110,22 @@ set scrolloff=3
 set number
 set ruler
 au GUIEnter * simalt ~x
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "查找搜索设置
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set incsearch             " use incremental search
 set ignorecase smartcase
 set hlsearch
 set incsearch
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"将键盘上的F12健映射为执行当前文件
-map <F12> :!%<CR>
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"按键映射
+map <F12> :!%<CR> "将键盘上的F12健映射为执行当前文件
+map <C-TAB> :tabn<CR> "使用Ctrl+Tab键来切换标签页
+set showcmd
+let mapleader="\<Space>" "set leaderkey=Space
+runtime macros/matchit.vim "使用增强版的%百分号跳转
 
-"使用Ctrl+Tab键来切换标签页
-map <C-TAB> :tabn<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "快捷键设置
@@ -114,7 +139,6 @@ map <C-TAB> :tabn<CR>
 "    F8   -  display next error   
 "  S-Tab  -  Fast switching between buffers (see below)
 "    C-q  -  Leave the editor with Ctrl-q (see below)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map   <silent> <F2>    :write<CR>
 map   <silent> <F3>    :NERDTree<CR>
 nmap  <silent> <F4>    :Tlist<CR>
@@ -138,25 +162,27 @@ nmap  <C-q>    :wqa<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "taglist设置
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let tlist_make_settings  = 'make;m:makros;t:targets'
 let tlist_qmake_settings = 'qmake;t:SystemVariables'
 let Tlist_Show_One_File = 1
 let Tlist_Exit_OnlyWindow = 1
 let Tlist_Use_Right_Window = 1
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "特定文件类型设置
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 au BufNewFile,BufRead *.mxml set filetype=mxml
 au FileType python setlocal et sta sw=2 sts=2
 au BufNewFile,BufRead *.pro  set filetype=qmake
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+au BufNewFile,BufRead *.ejs set filetype=html
+au BufNewFile,BufRead *.qml set filetype=qml
+"设置html文件的缩进
+let g:html_indent_script1 = "inc"
+let g:html_indent_style1 = "inc"
+let g:html_indent_inctags = "html,body,head,tbody"
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "CTAGS
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " configure tags - add additional tags here or comment out not-used ones
 set tags+=$VIM/vimfiles/ctags/cpp
 set tags+=$VIM/vimfiles/ctags/mingw
@@ -164,42 +190,13 @@ set tags+=$VIM/vimfiles/ctags/qt4
 " build tags of your own project with Ctrl-F12
 map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
-" OmniCppComplete
-let OmniCpp_NamespaceSearch = 1
-let OmniCpp_GlobalScopeSearch = 1
-let OmniCpp_ShowAccess = 1
-let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
-let OmniCpp_MayCompleteDot = 1 " autocomplete after .
-let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
-let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
-let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 
-" automatically open and close the popup menu / preview window
-au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-set completeopt=menuone,menu,longest,preview
-
-" 设置markdown插件的折叠默认为1级
-let g:vim_markdown_initial_foldlevel=1
-
-" 设置ejs的后缀文件为html格式
-au BufNewFile,BufRead *.ejs set filetype=html
-
-" 设置qml的后缀文件为qml格式
-au BufNewFile,BufRead *.qml set filetype=qml
-
-" 使用增强版的%百分号跳转
-runtime macros/matchit.vim
-
-"---NeoComplCache 启动
-let g:neocomplcache_enable_at_startup=1
-
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"个别插件设置
+"-- snipMate-deprecate version 0
+let g:snipMate = { 'snippet_version' : 1 }
 "---airline空白字符检查关闭（会拖慢vim速度）
 let g:airline_detect_whitespace=0
-
-"设置html文件的缩进
-let g:html_indent_script1 = "inc"
-let g:html_indent_style1 = "inc"
-let g:html_indent_inctags = "html,body,head,tbody"
 
 "snip-mate
 let g:snips_author = "sbabybird"
